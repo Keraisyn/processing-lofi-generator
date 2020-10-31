@@ -16,19 +16,32 @@ public class Chord {
         // Get keycodes of chord
         switch (type) {
         case "m":
+            // Minor triad
             notes = new int[] {r, r + 3, r + 7};
             break;
         case "M":
+            // Major triad
             notes = new int[] {r, r + 4, r + 7};
             break;
+        case "d7":
+            // Diminished 7th
+            notes = new int[] {r, r + 3, r + 6, r + 9};
+            break;
         case "m7":
+            // Minor 7th
             notes = new int[] {r, r + 3, r + 7, r + 10};
             break;
         case "M7":
+            // Major 7th
             notes = new int[] {r, r + 4, r + 7, r + 11};
             break;
         case "7":
+            // (Dominant) 7th
             notes = new int[] {r, r + 4, r + 7, r + 10};
+            break;
+        case "m9":
+            // Minor 9th
+            notes = new int[] {r, r + 3, r + 7, r + 10, r + 13};
             break;
         default:
             notes = new int[0];

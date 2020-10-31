@@ -8,6 +8,9 @@ public class Bass {
 
     public Bass(Chord[] progression) {
         this.getNotes(progression);
+        // Start sine with volume 0
+        this.sine.amp(0);
+        this.sine.play();
     }
 
     public void getNotes(Chord[] progression) {
@@ -19,13 +22,13 @@ public class Bass {
 
     public void step() {
         if (this.divisionCount % (beatDivision * 4) == 0) {
-            this.sine.stop();
+            this.sine.amp(0);
             float frequency = this.notes[this.patternIndex].frequency;
             // Bring note into bass territory
             float adjustedFrequency = frequency / (pow(2, 3));
             println(adjustedFrequency, frequency);
             this.sine.freq(adjustedFrequency);
-            this.sine.play();
+            this.sine.amp(1);
 
             if (this.patternIndex == this.notes.length-1) {
                 this.patternIndex = 0;
