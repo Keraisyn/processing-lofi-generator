@@ -7,9 +7,10 @@ public class Chord {
     public Chord (Note root, String type) {
         this.root = root;
         this.type = type;
+        this.findNotes(this.root, this.type);
     }
 
-    public void findNotes(int root, String type) {
+    public void findNotes(Note root, String type) {
         int[] notes;
         int r = this.root.keycode;
 

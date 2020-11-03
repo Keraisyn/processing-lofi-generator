@@ -28,7 +28,7 @@ public class Bass {
             float adjustedFrequency = frequency / (pow(2, 3));
             println(adjustedFrequency, frequency);
             this.sine.freq(adjustedFrequency);
-            this.sine.amp(1);
+            this.sine.amp(0.5);
 
             if (this.patternIndex == this.notes.length-1) {
                 this.patternIndex = 0;
