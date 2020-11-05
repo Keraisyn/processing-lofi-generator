@@ -44,6 +44,14 @@ public class Chord {
             // Minor 9th
             notes = new int[] {r, r + 3, r + 7, r + 10, r + 13};
             break;
+        case "sus2":
+            // Minor 9th
+            notes = new int[] {r, r + 2, r + 7, r + 10};
+            break;
+        case "9sus4":
+            // Minor 9th
+            notes = new int[] {r, r + 5, r + 7, r + 10, r + 13};
+            break;
         default:
             notes = new int[0];
         }

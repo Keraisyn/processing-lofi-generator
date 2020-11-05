@@ -25,7 +25,7 @@ public class Bass {
             this.sine.amp(0);
             float frequency = this.notes[this.patternIndex].frequency;
             // Bring note into bass territory
-            float adjustedFrequency = frequency / (pow(2, 3));
+            float adjustedFrequency = frequency / (pow(2, 2));
             println(adjustedFrequency, frequency);
             this.sine.freq(adjustedFrequency);
             this.sine.amp(0.5);
