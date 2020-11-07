@@ -10,6 +10,18 @@ Rain ra;
 
 SinOsc s;
 
+// Transpose the chord by a random number of steps. -6 > diffSteps > 5
+public void transpose(Chord[] prog) {
+    int diffSteps = (int) random(-6, 6);
+
+    for (Chord c : prog) {
+        c.root.changeNote(c.root.keycode + diffSteps);
+        for (Note n : c.chord) {
+            n.changeNote(n.keycode + diffSteps);
+        }
+    }
+}
+
 void setup() {
     sketchPApplet = this;
     globalSound = new Sound(this);
@@ -41,6 +53,10 @@ void setup() {
             new Chord(new Note(60), "sus2")
         }
     };
+
+    for (Chord[] p : progressions) {
+        transpose(p);
+    }
 
     //Chord[] progression = {
     //    new Chord(new Note(70), "7"), 

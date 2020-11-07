@@ -4,12 +4,39 @@ public class Chord {
     String type;
     Note[] chord;
 
+    // Constructor takes the root note and the type of chord
     public Chord (Note root, String type) {
         this.root = root;
         this.type = type;
+        // Generate notes depending on chord type
         this.findNotes(this.root, this.type);
     }
 
+    // Voice the chord around a target note
+    public void voice(int target) {
+        // Go through each note in the chord
+        for (Note n : this.chord) {
+            
+            // Get difference in code
+            int difference = n.keycode - target;
+
+            // If difference is larger than 12, bring it down enough octaves into range   
+            if (abs(difference) > 12) {
+                int changeValue = difference / 12 * 12;
+                difference = difference - changeValue;
+                n.keycode = n.keycode - changeValue;
+            }
+            
+            // Now, change the note so it is nearest the target
+            if (difference > 6) {
+                n.keycode = n.keycode - 12;
+            } else if (difference < -6) {
+                n.keycode = n.keycode + 12;
+            }
+        }
+    }
+
+    // Generate notes depending on chord type
     public void findNotes(Note root, String type) {
         int[] notes;
         int r = this.root.keycode;
