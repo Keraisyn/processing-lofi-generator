@@ -7,6 +7,7 @@ Drums d;
 Bass b;
 Rhodes r;
 Rain ra;
+Melody m;
 
 SinOsc s;
 
@@ -74,6 +75,7 @@ void setup() {
     b = new Bass(progression);  
     r = new Rhodes(progression);
     ra = new Rain();
+    m = new Melody(progression);
 }
 
 void draw() {
@@ -81,4 +83,5 @@ void draw() {
     b.step();
     r.step();
     ra.step();
+    m.step();
 }

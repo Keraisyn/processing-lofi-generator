@@ -17,6 +17,7 @@ public class Note {
     }
 
     private void setNote(int keycode) {
+        println("keycode:", keycode);
         this.keyname = this.noteList[(keycode - 12) % 12] + ((keycode - 12) / 12);
     }
 
