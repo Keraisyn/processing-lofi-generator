@@ -14,11 +14,11 @@ public class Drums implements Instrument {
         new boolean[] {false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false}, 
         new boolean[] {true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false}, 
         new boolean[] {false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false}
-        ),
+        ), 
         new DrumPattern(
-        new boolean[] {true, false, false, false,  false, false, false, false, false, false, true, false, false, false, false, false}, 
-        new boolean[] {false, false, false, false, true, false, false, false,  false, false, false, false, true, false, false, false}, 
-        new boolean[] {true, false, true, false,   true, false, true, false,   true, false, false, false, true, false, true, false}, 
+        new boolean[] {true, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false}, 
+        new boolean[] {false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false}, 
+        new boolean[] {true, false, true, false, true, false, true, false, true, false, false, false, true, false, true, false}, 
         new boolean[] {false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false}
         )
     };
@@ -68,18 +68,22 @@ public class Drums implements Instrument {
     public void playNote(String n) {
         switch(n) {
         case "kick":
+            this.kick.stop();
             this.kick.play();
             //print("playing kick");
             break;
         case "snare":
+            this.snare.stop();
             this.snare.play();
             //print("playing snare");
             break;
         case "hihat":
+            this.hihat.stop();
             this.hihat.play();
             //print("playing hat");
             break;
         case "openhihat":
+            this.openhihat.stop();
             this.openhihat.play();
             //print("playing openhat");
             break;

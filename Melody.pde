@@ -26,15 +26,14 @@ public class Melody {
 
         int changeValue = difference / 12 * 12;
         difference = difference - changeValue;
-        a = a - changeValue;
 
         // Now, change the note so it is nearest the target
         if (difference > 6) {
-            return a - 12;
+            return abs(difference - 12);
         } else if (difference < -6) {
-            return a + 12;
+            return abs(difference + 12);
         } else {
-            return a;
+            return abs(difference);
         }
     }
 
@@ -53,28 +52,33 @@ public class Melody {
         int[] finalScores = new int[8];
 
         // Go through each scale degree to determine probabilities.
-        for (int i = 1; i < currentChord.scale.length - 1; i++) {
+        for (int i = 1; i < currentChord.scale.length; i++) {
+            println(i);
             // Smallest distance between lastNote and each scale degree.
             int distance = findDistance(lastNote.keycode, currentChord.scale[i].keycode);
 
             // Determine new score by multiplying the scale degree by the distance.
-            int newScore = distance * degreeScores[i];
+            int newScore = distanceScores[distance] * degreeScores[i];
 
             // Save the score.
             finalScores[i] = newScore;
         }
 
+        printArray(finalScores);
         // Choose a final degree with probabilities.
         int sum = Utility.sumArray(finalScores);
-        int t = (int) random(0, sum);
+        int t = (int) random(1, sum);
+        println("t", t);
         int cumulativeProb = 0;
         int targetDegree = 0;
 
-        for (int i = 1; i < finalScores.length - 1; i++) {
+        for (int i = 1; i < finalScores.length; i++) {
             cumulativeProb += finalScores[i];
+            println("cum:", cumulativeProb);
             if (t <= cumulativeProb) {
                 // Choose which scale degree we want.
                 targetDegree = i;
+                break;
             }
         }
 
@@ -84,28 +88,28 @@ public class Melody {
     }
 
     public void step() {
-        if (this.divisionCount % (beatDivision * 1) == 0) {
 
-            Note note = this.pickNote(this.lastNote, this.progression[patternIndex]);
-            this.lastNote = note;
-            int code = note.keycode;
+        Note note = this.pickNote(this.lastNote, this.progression[patternIndex]);
+        this.lastNote = note;
+        int code = note.keycode;
 
-            // Which index of the scale array is to be used
-            int scaleIndex = code % 12;    
+        // Which index of the scale array is to be used
+        int scaleIndex = code % 12;    
 
-            // Calculate the rate at which the soundfile will be played.
-            // The formula to find this is 2^(octave change). For example,
-            // an octave up will have rate 2^1 = 2. An octave down will have
-            // rate 2 ^ -1 = 0.5.
-            int rateDiff = (int) pow(2, (code-48) / 12);
-            println(code);
+        // Calculate the rate at which the soundfile will be played.
+        // The formula to find this is 2^(octave change). For example,
+        // an octave up will have rate 2^1 = 2. An octave down will have
+        // rate 2 ^ -1 = 0.5.
+        int rateDiff = (int) pow(2, (code-48) / 12 + 1);
 
-            // Play note 
-            println(rateDiff);
-            this.scale[scaleIndex].rate(rateDiff);
-            this.scale[scaleIndex].amp(0.5);
-            this.scale[scaleIndex].play();
+        // Play note 
+        this.scale[scaleIndex].rate(rateDiff);
+        this.scale[scaleIndex].amp(0.5);
+        this.scale[scaleIndex].stop();
+        this.scale[scaleIndex].play();
 
+        // Handle chord changes
+        if (this.divisionCount % (beatDivision * 4) == 0) {
             if (this.patternIndex == this.progression.length-1) {
                 this.patternIndex = 0;
             } else {
@@ -114,5 +118,6 @@ public class Melody {
         }
 
         this.divisionCount++;
+        println(this.divisionCount);
     }
 }

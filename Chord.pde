@@ -105,7 +105,7 @@ public class Chord {
         
         // Convert to Note objects
         this.scale = new Note[scaleCodes.length];
-        for (int i = 1; i < scaleCodes.length - 1; i++) {
+        for (int i = 1; i < scaleCodes.length; i++) {
             this.scale[i] = new Note(scaleCodes[i]);
         }
     }

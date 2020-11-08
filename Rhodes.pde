@@ -60,12 +60,11 @@ public class Rhodes {
                 // an octave up will have rate 2^1 = 2. An octave down will have
                 // rate 2 ^ -1 = 0.5.
                 int rateDiff = (int) pow(2, (code-48) / 12);
-                println(code);
 
                 // Play note 
-                println(rateDiff);
                 this.scale[scaleIndex].rate(rateDiff);
                 this.scale[scaleIndex].amp(0.5);
+                this.scale[scaleIndex].stop();
                 this.scale[scaleIndex].play();
             }
 

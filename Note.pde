@@ -17,13 +17,11 @@ public class Note {
     }
 
     private void setNote(int keycode) {
-        println("keycode:", keycode);
         this.keyname = this.noteList[(keycode - 12) % 12] + ((keycode - 12) / 12);
     }
 
     private void setFrequency(int keycode) {
         float f = pow(2, (keycode - 69)/12.0) * 440;
-        print(f);
         this.frequency = f;
     }
 }
