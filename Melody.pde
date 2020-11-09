@@ -19,10 +19,14 @@ public class Melody {
     // best in 4/4 time.
     // Structure 
     private boolean[][] rhythmBank = {
-        {true, false, false, false},  // Single quarter
-        {true, false, true, false},   // Two eighths
-        {true, false, false, true},   // Dotted eighth
-        {true, true, true, true},     // Four sixteenths
+        {true, false, false, false, false, false, false, false}, // Single half
+        {false, false, false, false, true, false, false, false}, // Quarter rest then quarter
+        {true, false, false, false, true, false, true, false}, 
+        {true, false, false, false}, // Single quarter
+        {true, false, true, false}, // Two eighths
+        {true, false, false, true}, // Dotted eighth
+        {true, false, true, true}, // Eighth and 2 sixteenths
+        {true, true, true, true}, // Four sixteenths
     };
 
 
@@ -30,8 +34,15 @@ public class Melody {
 
     private int divisionCount = 0;
     private int patternIndex = 0;
+    private int barIndex = 0;
+
+    // One bar of music rhythms.
+    private boolean[] bar;
+    private int barSteps;
 
     public Melody(Chord[] progression) {
+        this.barSteps = beatDivision * barLength;
+        this.bar = new boolean[this.barSteps];
         this.progression = progression;
     }
 
@@ -78,17 +89,14 @@ public class Melody {
             finalScores[i] = newScore;
         }
 
-        printArray(finalScores);
         // Choose a final degree with probabilities.
         int sum = Utility.sumArray(finalScores);
         int t = (int) random(1, sum);
-        println("t", t);
         int cumulativeProb = 0;
         int targetDegree = 0;
 
         for (int i = 1; i < finalScores.length; i++) {
             cumulativeProb += finalScores[i];
-            println("cumulative:", cumulativeProb);
             if (t <= cumulativeProb) {
                 // Choose which scale degree we want.
                 targetDegree = i;
@@ -102,36 +110,70 @@ public class Melody {
     }
 
     public void step() {
-        if (this.divisionCount % 8 == 0) {
+
+        // Run at the beginning of each bar. Changes the chord
+        // and generates new melody notes.
+        if (this.divisionCount % (beatDivision * 4) == 0) {
+            this.barIndex = 0;
+
+            // Change chord
+            if (this.patternIndex == this.progression.length-1) {
+                this.patternIndex = 0;
+            } else {
+                this.patternIndex++;
+            }
+
+            // TODO: PULL THIS OUT INTO ANOTHER FUNCTION
+            // Generate melody for this bar
+            // Create rhythm
+            // How many steps of the bar have been filled
+            int filledSteps = 0;
+            while (filledSteps < barSteps) {
+                boolean[] rhythmChoice = this.rhythmBank[(int) random(0, this.rhythmBank.length)];
+
+                // Length in steps
+                int rhythmLength = rhythmChoice.length;
+
+                // Check if there's room for the pattern
+                if (filledSteps + rhythmLength <= barSteps) {
+                    for (int i = 0; i < rhythmLength; i++) {
+                        if (rhythmChoice[i]) {
+                            this.bar[filledSteps + i] = true;
+                        } else {
+                            this.bar[filledSteps + i] = false;
+                        }
+                    }
+                }
+
+                filledSteps += rhythmLength;
+                printArray(this.bar);
+            }
+        }
+
+
+        if (this.bar[this.barIndex]) {
+            println(this.bar[this.barIndex]);
             Note note = this.pickNote(this.lastNote, this.progression[patternIndex]);
             this.lastNote = note;
             int code = note.keycode;
-    
+
             // Which index of the scale array is to be used
             int scaleIndex = code % 12;    
-    
+
             // Calculate the rate at which the soundfile will be played.
             // The formula to find this is 2^(octave change). For example,
             // an octave up will have rate 2^1 = 2. An octave down will have
             // rate 2 ^ -1 = 0.5.
             int rateDiff = (int) pow(2, (code-48) / 12);
-    
+
             // Play note 
             this.scale[scaleIndex].rate(rateDiff);
             this.scale[scaleIndex].amp(0.5);
             this.scale[scaleIndex].stop();
             this.scale[scaleIndex].play();
         }
-
-        // Handle chord changes
-        if (this.divisionCount % (beatDivision * 4) == 0) {
-            if (this.patternIndex == this.progression.length-1) {
-                this.patternIndex = 0;
-            } else {
-                this.patternIndex++;
-            }
-        }
-
+        this.barIndex++;
+        
         // Keep a running tally of divisions.
         this.divisionCount++;
     }

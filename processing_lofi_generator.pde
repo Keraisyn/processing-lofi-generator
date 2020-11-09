@@ -8,6 +8,9 @@ PApplet sketchPApplet;
 // How many parts a single beat is split into. Default value is 4 (16ths).
 int beatDivision = 4;
 
+// How many beats are in a bar. Default is 4 (4/4 time).
+int barLength = 4;
+
 // Initiate global Sound object.
 Sound globalSound;
 
