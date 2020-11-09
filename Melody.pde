@@ -1,3 +1,6 @@
+// Melody instrument.
+// Continously generates a melody with the chord progression.
+
 public class Melody {
 
     private int voiceTarget = 60;
@@ -10,6 +13,18 @@ public class Melody {
         new SoundFile(sketchPApplet, "samples/rhodes/f#3.aiff"), new SoundFile(sketchPApplet, "samples/rhodes/g3.aiff"), new SoundFile(sketchPApplet, "samples/rhodes/g#3.aiff"), 
         new SoundFile(sketchPApplet, "samples/rhodes/a3.aiff"), new SoundFile(sketchPApplet, "samples/rhodes/a#3.aiff"), new SoundFile(sketchPApplet, "samples/rhodes/b3.aiff")
     };
+
+
+    // Rhythm bank. The length is not limited to 4, although the rhythms work 
+    // best in 4/4 time.
+    // Structure 
+    private boolean[][] rhythmBank = {
+        {true, false, false, false},  // Single quarter
+        {true, false, true, false},   // Two eighths
+        {true, false, false, true},   // Dotted eighth
+        {true, true, true, true},     // Four sixteenths
+    };
+
 
     private Chord[] progression;
 
@@ -53,7 +68,6 @@ public class Melody {
 
         // Go through each scale degree to determine probabilities.
         for (int i = 1; i < currentChord.scale.length; i++) {
-            println(i);
             // Smallest distance between lastNote and each scale degree.
             int distance = findDistance(lastNote.keycode, currentChord.scale[i].keycode);
 
@@ -74,7 +88,7 @@ public class Melody {
 
         for (int i = 1; i < finalScores.length; i++) {
             cumulativeProb += finalScores[i];
-            println("cum:", cumulativeProb);
+            println("cumulative:", cumulativeProb);
             if (t <= cumulativeProb) {
                 // Choose which scale degree we want.
                 targetDegree = i;
@@ -88,25 +102,26 @@ public class Melody {
     }
 
     public void step() {
-
-        Note note = this.pickNote(this.lastNote, this.progression[patternIndex]);
-        this.lastNote = note;
-        int code = note.keycode;
-
-        // Which index of the scale array is to be used
-        int scaleIndex = code % 12;    
-
-        // Calculate the rate at which the soundfile will be played.
-        // The formula to find this is 2^(octave change). For example,
-        // an octave up will have rate 2^1 = 2. An octave down will have
-        // rate 2 ^ -1 = 0.5.
-        int rateDiff = (int) pow(2, (code-48) / 12 + 1);
-
-        // Play note 
-        this.scale[scaleIndex].rate(rateDiff);
-        this.scale[scaleIndex].amp(0.5);
-        this.scale[scaleIndex].stop();
-        this.scale[scaleIndex].play();
+        if (this.divisionCount % 8 == 0) {
+            Note note = this.pickNote(this.lastNote, this.progression[patternIndex]);
+            this.lastNote = note;
+            int code = note.keycode;
+    
+            // Which index of the scale array is to be used
+            int scaleIndex = code % 12;    
+    
+            // Calculate the rate at which the soundfile will be played.
+            // The formula to find this is 2^(octave change). For example,
+            // an octave up will have rate 2^1 = 2. An octave down will have
+            // rate 2 ^ -1 = 0.5.
+            int rateDiff = (int) pow(2, (code-48) / 12);
+    
+            // Play note 
+            this.scale[scaleIndex].rate(rateDiff);
+            this.scale[scaleIndex].amp(0.5);
+            this.scale[scaleIndex].stop();
+            this.scale[scaleIndex].play();
+        }
 
         // Handle chord changes
         if (this.divisionCount % (beatDivision * 4) == 0) {
@@ -117,7 +132,7 @@ public class Melody {
             }
         }
 
+        // Keep a running tally of divisions.
         this.divisionCount++;
-        println(this.divisionCount);
     }
 }

@@ -1,3 +1,6 @@
+// DrumPattern object.
+// Hold drum patterns for easier usage.
+
 public class DrumPattern {
     boolean[] kick;
     boolean[] snare;

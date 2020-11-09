@@ -1,6 +1,6 @@
 public class Rhodes {
     // Target value for voicing
-    private int voiceTarget = 60;
+    private int voiceTarget = 58;
 
     // Load individual samples from C3 - B3 (48 - 59)
     private SoundFile[] scale = {

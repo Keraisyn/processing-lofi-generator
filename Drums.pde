@@ -1,7 +1,12 @@
+// Drum instrument.
+// Selects and plays a drum beat from a pattern bank.
+
 public class Drums implements Instrument {
     // TODO: Load patternBank from file.
 
-    private DrumPattern pattern;    
+    // The pattern that is chosen and used.
+    private DrumPattern pattern; 
+    
     private DrumPattern[] patternBank = {
         new DrumPattern(
         new boolean[] {true, false, true, false, false, false, false, false, true, false, true, false, false, false, false, false}, 
@@ -22,21 +27,26 @@ public class Drums implements Instrument {
         new boolean[] {false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false}
         )
     };
+    
+    // Which division of the pattern the instrument is currently on.
     private int patternIndex = 0;
 
-    // SoundFiles
+    // Load in soundFiles.
     SoundFile kick = new SoundFile(sketchPApplet, "samples/drums/kick.wav");
     SoundFile snare = new SoundFile(sketchPApplet, "samples/drums/snare.wav");
     SoundFile hihat = new SoundFile(sketchPApplet, "samples/drums/hihat.wav");
     SoundFile openhihat = new SoundFile(sketchPApplet, "samples/drums/openhihat.wav");
 
+
     public Drums() {
         this.choosePattern();
     };
 
+
     public void choosePattern() {
         this.pattern = this.patternBank[int(random(0, this.patternBank.length))];
     }
+
 
     // Step forward one unit
     public void step() {

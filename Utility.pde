@@ -1,3 +1,5 @@
+// Some utility functions that are helpful.
+
 public static class Utility {
 
     public static int sumArray(int[] a) {

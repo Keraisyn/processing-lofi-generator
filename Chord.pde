@@ -1,8 +1,18 @@
+// Chord object.
+// Has 3 important fields: root of the chord, notes of the chord,
+// and scale degree notes of the chord.
+
 public class Chord {
+    // Store root note separately as well.
     Note root;
+    
     // Chord type (m7, M7, 7, m9, etc)
     String type;
+    
+    // Chord notes only.
     Note[] chord;
+    
+    // Scale degrees of the chord.
     Note[] scale;
 
     // Constructor takes the root note and the type of chord
@@ -13,6 +23,7 @@ public class Chord {
         // Generate notes depending on chord type
         this.findNotes(this.root, this.type);
     }
+
 
     // Voice the chord around a target note
     public void voice(int target) {
@@ -38,13 +49,14 @@ public class Chord {
         }
     }
 
+
     // Generate notes depending on chord type
     public void findNotes(Note root, String type) {
         int[] notes;
         int[] scaleCodes;
         int r = this.root.keycode;
 
-        // Get keycodes of chord
+        // Get keycodes of chord and scale depending on type.
         switch (type) {
         case "m":
             // Minor triad
