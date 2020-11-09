@@ -5,5 +5,7 @@
 public interface Instrument {
     public void step();
     
+    public void changeVolume(float v);
+    
     //public void choosePattern();
 }

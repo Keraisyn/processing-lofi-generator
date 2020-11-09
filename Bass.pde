@@ -8,6 +8,8 @@ public class Bass {
     // Instantiate Sine Oscillator.
     SinOsc sine = new SinOsc(sketchPApplet);
     
+    public float defaultVolume = 0.5;
+    
     // Which chord of the progression the instrument is currently on.
     private int patternIndex = 0;
     
@@ -20,9 +22,7 @@ public class Bass {
         // Extract roots from the progression.
         this.getNotes(progression);
         
-        // Start sine with volume 0
-        this.sine.amp(0);
-        this.sine.play();
+        this.sine.amp(this.defaultVolume);
     }
 
 
@@ -40,7 +40,7 @@ public class Bass {
         // If we are at the start of a new chord.
         if (this.divisionCount % (beatDivision * 4) == 0) {
             // "Turn off" the instrument by setting volume to 0.
-            this.sine.amp(0);
+            this.sine.stop();
             
             // Get frequency of the note and bring it into bass frequency.
             // TODO: USE THAT FUNCTION TO BRING IT NEAR A CERTAIN NOTE.
@@ -49,7 +49,7 @@ public class Bass {
             this.sine.freq(adjustedFrequency);
             
             // "Play" the instrument by setting volume. Default 0.5.
-            this.sine.amp(0.5);
+            this.sine.play();
 
             // Return to beginning of chord progression if at end.
             if (this.patternIndex == this.notes.length-1) {
@@ -61,5 +61,9 @@ public class Bass {
 
         // Update step() call count.
         this.divisionCount++;
+    }
+    
+    public void changeVolume(float v) {
+        this.sine.amp(v);
     }
 }

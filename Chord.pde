@@ -5,13 +5,13 @@
 public class Chord {
     // Store root note separately as well.
     Note root;
-    
+
     // Chord type (m7, M7, 7, m9, etc)
     String type;
-    
+
     // Chord notes only.
     Note[] chord;
-    
+
     // Scale degrees of the chord.
     Note[] scale;
 
@@ -29,23 +29,26 @@ public class Chord {
     public void voice(int target) {
         // Go through each note in the chord
         for (Note n : this.chord) {
+            this.voiceNote(n, target);
+        }
+    }
 
-            // Get difference in code
-            int difference = n.keycode - target;
+    public void voiceNote(Note n, int target) {
+        // Get difference in code
+        int difference = n.keycode - target;
 
-            // If difference is larger than 12, bring it down enough octaves into range   
-            if (abs(difference) > 12) {
-                int changeValue = difference / 12 * 12;
-                difference = difference - changeValue;
-                n.keycode = n.keycode - changeValue;
-            }
+        // If difference is larger than 12, bring it down enough octaves into range   
+        if (abs(difference) > 12) {
+            int changeValue = difference / 12 * 12;
+            difference = difference - changeValue;
+            n.keycode = n.keycode - changeValue;
+        }
 
-            // Now, change the note so it is nearest the target
-            if (difference > 6) {
-                n.keycode = n.keycode - 12;
-            } else if (difference < -6) {
-                n.keycode = n.keycode + 12;
-            }
+        // Now, change the note so it is nearest the target
+        if (difference > 6) {
+            n.keycode = n.keycode - 12;
+        } else if (difference < -6) {
+            n.keycode = n.keycode + 12;
         }
     }
 
@@ -113,8 +116,8 @@ public class Chord {
         for (int i = 0; i < notes.length; i++) {
             this.chord[i] = new Note(notes[i]);
         }
-        
-        
+
+
         // Convert to Note objects
         this.scale = new Note[scaleCodes.length];
         for (int i = 1; i < scaleCodes.length; i++) {

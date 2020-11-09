@@ -2,6 +2,8 @@ public class Rhodes {
     // Target value for voicing
     private int voiceTarget = 58;
 
+    public float volume = 0.5;
+
     // Load individual samples from C3 - B3 (48 - 59)
     private SoundFile[] scale = {
         new SoundFile(sketchPApplet, "samples/rhodes/c3.aiff"), new SoundFile(sketchPApplet, "samples/rhodes/c#3.aiff"), new SoundFile(sketchPApplet, "samples/rhodes/d3.aiff"), 
@@ -48,9 +50,11 @@ public class Rhodes {
 
     public void step() {
         if (this.divisionCount % (beatDivision * 4) == 0) {
+            println("rhodes is playing:");
             // Go through each note of the current chord
             for (Note note : this.progression[patternIndex].chord) {
                 int code = note.keycode;
+                println(code);
 
                 // Which index of the scale array is to be used
                 int scaleIndex = code % 12;    
@@ -63,7 +67,7 @@ public class Rhodes {
 
                 // Play note 
                 this.scale[scaleIndex].rate(rateDiff);
-                this.scale[scaleIndex].amp(0.5);
+                this.scale[scaleIndex].amp(this.volume);
                 this.scale[scaleIndex].stop();
                 this.scale[scaleIndex].play();
             }
@@ -76,5 +80,9 @@ public class Rhodes {
         }
 
         this.divisionCount++;
+    }
+    
+    public void changeVolume(float v) {
+        this.volume = v;
     }
 }

@@ -99,4 +99,14 @@ public class Drums implements Instrument {
             break;
         }
     }
+    
+    
+    // Change the volume of all drums. Volume must be
+    // between 0.0 and 1.0
+    public void changeVolume(float v) {
+        this.kick.amp(v);
+        this.snare.amp(v);
+        this.hihat.amp(v);
+        this.openhihat.amp(v);
+    }
 }

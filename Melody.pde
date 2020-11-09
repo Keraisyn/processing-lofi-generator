@@ -3,8 +3,9 @@
 
 public class Melody {
 
-    private int voiceTarget = 60;
+    private int voiceTarget = 55;
     private Note lastNote = new Note(60);
+    private float volume = 0.5;
 
     // Load individual samples from C3 - B3 (48 - 59)
     private SoundFile[] scale = {
@@ -21,6 +22,7 @@ public class Melody {
     private boolean[][] rhythmBank = {
         {true, false, false, false, false, false, false, false}, // Single half
         {false, false, false, false, true, false, false, false}, // Quarter rest then quarter
+        {true, false, true, false, false, false, true, false},   // Eighth, quarter, eighth
         {true, false, false, false, true, false, true, false}, 
         {true, false, false, false}, // Single quarter
         {true, false, true, false}, // Two eighths
@@ -68,12 +70,13 @@ public class Melody {
         // How desirable each degree of the chord is. Higher the number, the more 
         // desirable it is. Index 0 has no meaning.
         // Scale degrees:               x, 1, 2, 3, 4, 5, 6, 7
-        int[] degreeScores = new int[] {0, 8, 6, 9, 4, 8, 2, 9};
+        //int[] degreeScores = new int[] {0, 8, 4, 9, 3, 8, 2, 6};
+        int[] degreeScores = new int[] {0, 8, 4, 9, 3, 9, 2, 6};
 
         // How desirability scales depending on distance from lastNote. 6 is the
         // furthest distance two notes can be from each other.
         // Distances (semitones):         0, 1, 2, 3, 4, 5, 6 
-        int[] distanceScores = new int[] {5, 8, 8, 7, 7, 6, 5};
+        int[] distanceScores = new int[] {4, 8, 8, 7, 7, 6, 5};
 
         int[] finalScores = new int[8];
 
@@ -117,7 +120,7 @@ public class Melody {
             this.barIndex = 0;
 
             // Change chord
-            if (this.patternIndex == this.progression.length-1) {
+            if (this.patternIndex == this.progression.length-1 || divisionCount == 0) {
                 this.patternIndex = 0;
             } else {
                 this.patternIndex++;
@@ -146,16 +149,20 @@ public class Melody {
                 }
 
                 filledSteps += rhythmLength;
-                printArray(this.bar);
             }
         }
 
-
         if (this.bar[this.barIndex]) {
-            println(this.bar[this.barIndex]);
+
             Note note = this.pickNote(this.lastNote, this.progression[patternIndex]);
+            //println(this.progression[patternIndex].type);
             this.lastNote = note;
             int code = note.keycode;
+
+            //int difference = code-this.voiceTarget;
+            //if (abs(difference) > 12) {
+            //    note.changeNote(code - difference / 12 * 12);
+            //}
 
             // Which index of the scale array is to be used
             int scaleIndex = code % 12;    
@@ -164,17 +171,22 @@ public class Melody {
             // The formula to find this is 2^(octave change). For example,
             // an octave up will have rate 2^1 = 2. An octave down will have
             // rate 2 ^ -1 = 0.5.
-            int rateDiff = (int) pow(2, (code-48) / 12);
+            int rateDiff = (int) pow(2, (code-48) / 12 - 1);
 
             // Play note 
             this.scale[scaleIndex].rate(rateDiff);
-            this.scale[scaleIndex].amp(0.5);
+            this.scale[scaleIndex].amp(this.volume);
             this.scale[scaleIndex].stop();
             this.scale[scaleIndex].play();
         }
+
         this.barIndex++;
-        
+
         // Keep a running tally of divisions.
         this.divisionCount++;
+    }
+    
+    public void changeVolume(float v) {
+        this.volume = v;
     }
 }

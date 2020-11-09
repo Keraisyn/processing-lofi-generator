@@ -2,6 +2,8 @@
 // Official Processing Sound library. Used for all sound features.
 import processing.sound.*;
 
+import g4p_controls.*;
+
 // Intiate PApplet
 PApplet sketchPApplet;
 
@@ -20,6 +22,7 @@ Bass b;
 Rhodes r;
 Rain ra;
 Melody m;
+Vinyl v;
 
 
 // Transpose the chord by a random number of steps. -6 > diffSteps > 5
@@ -33,11 +36,19 @@ public void transpose(Chord[] prog) {
         for (Note n : c.chord) {
             n.changeNote(n.keycode + diffSteps);
         }
+
+        for (int i = 1; i < c.scale.length; i++) {
+            Note n = c.scale[i];
+            n.changeNote(n.keycode + diffSteps);
+        }
     }
 }
 
 
 void setup() {
+    createGUI();
+    size(1000, 800);
+    
     // Create a reference to the Processing applet. This is required for
     // the processing.Sound library.
     sketchPApplet = this;
@@ -81,14 +92,15 @@ void setup() {
 
     // Choose a random chord progression from the bank.
     Chord[] progression = progressions[(int) random(0, progressions.length)];
+    //Chord[] progression = progressions[0];
 
     // Set the tempo. How many beats occur every minute.
     float tempo = 80;
-    
+
     // Set the frameRate. This is how many times the draw() loop occurs every second.
     int frameRate = int(tempo/60*beatDivision);
     frameRate(frameRate);
-    
+
     // Instantiate each instrument with the chord progression if
     // that instrument needs it.
     d = new Drums(); 
@@ -96,6 +108,7 @@ void setup() {
     r = new Rhodes(progression);
     ra = new Rain();
     m = new Melody(progression);
+    v = new Vinyl();
 }
 
 // For each loop, step forward on each instrument.
@@ -105,4 +118,5 @@ void draw() {
     r.step();
     ra.step();
     m.step();
+    v.step();
 }
