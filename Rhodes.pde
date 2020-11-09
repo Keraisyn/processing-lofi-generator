@@ -1,5 +1,8 @@
+// Rhodes instrument
+// Plays a chord progression.
+
 public class Rhodes {
-    // Target value for voicing
+    // Target pitch for voicing chords
     private int voiceTarget = 58;
 
     public float volume = 0.5;
@@ -11,25 +14,39 @@ public class Rhodes {
         new SoundFile(sketchPApplet, "samples/rhodes/f#3.aiff"), new SoundFile(sketchPApplet, "samples/rhodes/g3.aiff"), new SoundFile(sketchPApplet, "samples/rhodes/g#3.aiff"), 
         new SoundFile(sketchPApplet, "samples/rhodes/a3.aiff"), new SoundFile(sketchPApplet, "samples/rhodes/a#3.aiff"), new SoundFile(sketchPApplet, "samples/rhodes/b3.aiff")
     };
+    
+    // How many steps have passed
     private int divisionCount = 0;
+    
+    // Which chord of the progression the instrument is on
     private int patternIndex = 0;
+    
+    // EQ filters
     private ArrayList<LowPass> lpFilters = new ArrayList<LowPass>();
     private ArrayList<HighPass> hpFilters = new ArrayList<HighPass>();
 
+    // Progression that will be used
     private Chord[] progression;
+
 
     public Rhodes(Chord[] progression) {
         this.progression = progression;
         this.applyEffects();
+        
+        // Voice chord as soon as it comes in
         this.applyVoicing();
     }
 
+
     private void applyVoicing() {
+        // For each chord, voice it
         for (Chord c : this.progression) {
             c.voice(this.voiceTarget);
         }
     }
 
+
+    // Apply EQ to sound. This may not work on SoundFiles.
     private void applyEffects() {
         // Apply filters to each note of the scale
         for (SoundFile s : this.scale) {
@@ -48,9 +65,10 @@ public class Rhodes {
         }
     }
 
+
     public void step() {
+        // Run if instrument is at a new bar.
         if (this.divisionCount % (beatDivision * 4) == 0) {
-            println("rhodes is playing:");
             // Go through each note of the current chord
             for (Note note : this.progression[patternIndex].chord) {
                 int code = note.keycode;
@@ -72,6 +90,7 @@ public class Rhodes {
                 this.scale[scaleIndex].play();
             }
 
+            // Move to next progression
             if (this.patternIndex == this.progression.length-1) {
                 this.patternIndex = 0;
             } else {
@@ -79,8 +98,10 @@ public class Rhodes {
             }
         }
 
+        // Incremement the step count
         this.divisionCount++;
     }
+    
     
     public void changeVolume(float v) {
         this.volume = v;

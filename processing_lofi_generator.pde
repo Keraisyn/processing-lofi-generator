@@ -13,6 +13,8 @@ int beatDivision = 4;
 // How many beats are in a bar. Default is 4 (4/4 time).
 int barLength = 4;
 
+boolean running = true;
+
 // Initiate global Sound object.
 Sound globalSound;
 
@@ -48,7 +50,7 @@ public void transpose(Chord[] prog) {
 void setup() {
     createGUI();
     size(1000, 800);
-    
+
     // Create a reference to the Processing applet. This is required for
     // the processing.Sound library.
     sketchPApplet = this;
@@ -113,10 +115,12 @@ void setup() {
 
 // For each loop, step forward on each instrument.
 void draw() {
-    d.step();
-    b.step();
-    r.step();
-    ra.step();
-    m.step();
-    v.step();
+    if (running) {
+        d.step();
+        b.step();
+        r.step();
+        ra.step();
+        m.step();
+        v.step();
+    }
 }
