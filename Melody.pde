@@ -3,10 +3,10 @@
 
 public class Melody {
 
+    // Default values
     private int voiceTarget = 55;
     private Note lastNote = new Note(60);
-    private float volume = 0.5;
-
+    public float volume = 0.5;
     public float pan = 0.0;
 
     // Load individual samples from C3 - B3 (48 - 59)
@@ -17,25 +17,13 @@ public class Melody {
         new SoundFile(sketchPApplet, "samples/rhodes/a3.aiff"), new SoundFile(sketchPApplet, "samples/rhodes/a#3.aiff"), new SoundFile(sketchPApplet, "samples/rhodes/b3.aiff")
     };
 
-
-    // Rhythm bank. The length is not limited to 4, although the rhythms work 
-    // best in 4/4 time.
-    // Structure 
+    // Declare rhythm bank
     private boolean[][] rhythmBank;
-    //    {true, false, false, false, false, false, false, false}, // Single half
-    //    {false, false, false, false, true, false, false, false}, // Quarter rest then quarter
-    //    {true, false, true, false, false, false, true, false}, // Eighth, quarter, eighth
-    //    {true, false, false, false, true, false, true, false}, 
-    //    {true, false, false, false}, // Single quarter
-    //    {true, false, true, false}, // Two eighths
-    //    {true, false, false, true}, // Dotted eighth
-    //    {true, false, true, true}, // Eighth and 2 sixteenths
-    //    {true, true, true, true}, // Four sixteenths
-    //};
 
-
+    // Progression for this instrument
     private Chord[] progression;
 
+    // Indices for keeping track of beats/chords
     private int divisionCount = 0;
     private int patternIndex = 0;
     private int barIndex = 0;
@@ -44,12 +32,14 @@ public class Melody {
     private boolean[] bar;
     private int barSteps;
 
+
     public Melody(Chord[] progression) {
         this.loadRhythms();
         this.barSteps = beatDivision * barLength;
         this.bar = new boolean[this.barSteps];
         this.progression = progression;
     }
+
 
     // Find the closest distance between two notes
     private int findDistance(int a, int b) {
@@ -68,12 +58,13 @@ public class Melody {
         }
     }
 
-    // Here is the big daddy melody generating function
+    // Melody generating function
     private Note pickNote(Note lastNote, Chord currentChord) {
+        // Try tweaking the arrays for change melody generation!
+        
         // How desirable each degree of the chord is. Higher the number, the more 
         // desirable it is. Index 0 has no meaning.
         // Scale degrees:               x, 1, 2, 3, 4, 5, 6, 7
-        //int[] degreeScores = new int[] {0, 8, 4, 9, 3, 8, 2, 6};
         int[] degreeScores = new int[] {0, 8, 4, 9, 3, 9, 2, 6};
 
         // How desirability scales depending on distance from lastNote. 6 is the
@@ -111,9 +102,9 @@ public class Melody {
         }
 
         // Finally, return the new note.
-        println("melody wants to play:", targetDegree);
         return new Note(currentChord.scale[targetDegree].keycode);
     }
+
 
     public void step() {
 
@@ -129,11 +120,10 @@ public class Melody {
                 this.patternIndex++;
             }
 
-            // TODO: PULL THIS OUT INTO ANOTHER FUNCTION
-            // Generate melody for this bar
-            // Create rhythm
             // How many steps of the bar have been filled
             int filledSteps = 0;
+
+            // Complete the bar rhythms
             while (filledSteps < barSteps) {
                 boolean[] rhythmChoice = this.rhythmBank[(int) random(0, this.rhythmBank.length)];
 
@@ -155,17 +145,12 @@ public class Melody {
             }
         }
 
+        // If this step is a played step according to generated rhythms.
         if (this.bar[this.barIndex]) {
 
             Note note = this.pickNote(this.lastNote, this.progression[patternIndex]);
-            //println(this.progression[patternIndex].type);
             this.lastNote = note;
             int code = note.keycode;
-
-            //int difference = code-this.voiceTarget;
-            //if (abs(difference) > 12) {
-            //    note.changeNote(code - difference / 12 * 12);
-            //}
 
             // Which index of the scale array is to be used
             int scaleIndex = code % 12;    
@@ -190,6 +175,8 @@ public class Melody {
         this.divisionCount++;
     }
 
+
+    // Load rhythms from text file rhythm bank
     public void loadRhythms() {
         String[] lines = loadStrings("bank/rhythms.txt");
         boolean[][] rb = new boolean[lines.length][];
@@ -198,6 +185,7 @@ public class Melody {
         }
         this.rhythmBank = rb;
     }
+
 
     public boolean[] convertStrToBool(String[] a) {
         boolean[] r = new boolean[a.length];
@@ -212,9 +200,12 @@ public class Melody {
         return r;
     }
 
+
+    // Change volume and pan
     public void changeVolume(float v) {
         this.volume = v;
     }
+
 
     public void changePan(float v) {
         this.pan = pan;

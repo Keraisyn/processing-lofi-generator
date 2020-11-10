@@ -2,16 +2,16 @@
 // Hold drum patterns for easier usage.
 
 public class DrumPattern {
-    boolean[] kick;
-    boolean[] snare;
-    boolean[] hihat;
-    boolean[] openhihat;
+    public boolean[] kick;
+    public boolean[] snare;
+    public boolean[] hihat;
+    public boolean[] openhihat;
     
     // Empty constructor
-    DrumPattern() {}
+    public DrumPattern() {}
     
     // Defined pattern constructor
-    DrumPattern(boolean[] kick, boolean[] snare, boolean[] hihat, boolean[] openhihat) {
+    public DrumPattern(boolean[] kick, boolean[] snare, boolean[] hihat, boolean[] openhihat) {
         this.kick = kick;
         this.snare = snare;
         this.hihat = hihat;

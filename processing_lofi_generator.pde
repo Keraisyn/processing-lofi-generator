@@ -1,7 +1,7 @@
 // ****************************************************
 // TITLE: PROCESSING LOFI GENERATOR AND MIXER
 // PURPOSE: FINAL CODING PROJECT
-// LAST EDITED: 11/09/2020
+// LAST EDITED: 11/10/2020
 // AUTHOR: MATTHEWS MA
 // COURSE: ICS 4UI
 // TEACHER: MR. SCHATTMAN
@@ -9,45 +9,38 @@
 
 
 // Library imports
-// Official Processing Sound library. Used for all sound features.
-import processing.sound.*;
+import processing.sound.*;  // Official Processing Sound library. Used for all sound features.
+import g4p_controls.*;      // g4p library for GUI.
+import java.util.Map;       // Java HashMap data structure.
 
-import g4p_controls.*;
+PApplet sketchPApplet;      // Initiate PApplet
 
-import java.util.Map;
+// Global variables
+int beatDivision = 4;   // How many parts a single beat is split into
+int barLength = 4;      // How many beats are in a bar
 
-// Intiate PApplet
-PApplet sketchPApplet;
+boolean running = true; // Controls whether the programs should step through
 
-// How many parts a single beat is split into. Default value is 4 (16ths).
-int beatDivision = 4;
+float tempo = 80;       // Default tempo that matches the GUI
 
-// How many beats are in a bar. Default is 4 (4/4 time).
-int barLength = 4;
+Sound globalSound;      // Initiate global Sound object.
 
-float tempo = 80;
-
-boolean running = true;
-
-Chord[] progression;
-
+// Declare player object. It handles progressions, instruments, etc. Having a separate class makes
+// choosing another chord progression simple.
 Player player;
 
-// Initiate global Sound object.
-Sound globalSound;
-
-// Initiate each instrument
-Drums d;
-Bass b;
-Rhodes r;
-Rain ra;
-Melody m;
-Vinyl v;
+// Declare each instrument
+Drums d;    // Drums
+Bass b;     // Bass
+Rhodes r;   // Chord instrument
+Rain ra;    // Rain sound effect
+Melody m;   // Melody instrument based on Rhodes sound
+Vinyl v;    // Vinyl sound effect
 
 
 void setup() {
     createGUI();
-    size(500,500);
+    size(500,500);  // 500x500 is the right size for the g4p GUI
 
     // Create a reference to the Processing applet. This is required for
     // the processing.Sound library.
@@ -60,7 +53,7 @@ void setup() {
     player = new Player();
 }
 
-// For each loop, step forward on each instrument.
+// For each loop, step forward on each instrument if program is running.
 void draw() {
     if (running) {
         d.step();

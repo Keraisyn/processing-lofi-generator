@@ -4,16 +4,16 @@
 
 public class Chord {
     // Store root note separately as well.
-    Note root;
+    public Note root;
 
     // Chord type (m7, M7, 7, m9, etc)
-    String type;
+    public String type;
 
     // Chord notes only.
-    Note[] chord;
+    public Note[] chord;
 
     // Scale degrees of the chord.
-    Note[] scale;
+    public Note[] scale;
 
     // Constructor takes the root note and the type of chord
     public Chord (Note root, String type) {
@@ -124,26 +124,4 @@ public class Chord {
             this.scale[i] = new Note(scaleCodes[i]);
         }
     }
-
-    //// Find scale degrees for melody instruments
-    //public void findScale(Note root, String type) {
-    //    int r = this.root.keycode;
-    //    int[] scaleCodes;
-    //    switch(type) {
-    //    case "major":
-    //        scaleCodes = new int[] {0, r, r+2, r+4, r+5, r+7, r+9, r+11};
-    //        break;
-    //    case "minor":
-    //        scaleCodes = new int[] {0, r, r+2, r+3, r+5, r+7, r+9, r+10};
-    //        break;
-    //    default:
-    //        scaleCodes = new int[0];
-    //    }
-
-    //    // Convert to Note objects
-    //    this.scale = new Note[scaleCodes.length];
-    //    for (int i = 1; i < scaleCodes.length - 1; i++) {
-    //        this.scale[i] = new Note(scaleCodes[i]);
-    //    }
-    //}
 }

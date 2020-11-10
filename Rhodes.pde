@@ -74,7 +74,6 @@ public class Rhodes {
             // Go through each note of the current chord
             for (Note note : this.progression[patternIndex].chord) {
                 int code = note.keycode;
-                println(code);
 
                 // Which index of the scale array is to be used
                 int scaleIndex = code % 12;    

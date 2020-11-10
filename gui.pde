@@ -16,6 +16,7 @@
 
 public void melody_volume_change(GSlider source, GEvent event) { //_CODE_:melody_volume:706844:
     println("melody_volume - GSlider >> GEvent." + event + " @ " + millis());
+    // Take 1.0 - the value so that upwards is higher volume than downwards on sliders.
     if (!melody_mute.isSelected()) {
         m.changeVolume(1.0-melody_volume.getValueF());
     }

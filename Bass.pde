@@ -3,14 +3,14 @@
 
 public class Bass {
     // Notes that are played through the pattern.
-    Note[] notes;
+    private Note[] notes;
     
-    // Instantiate Sine Oscillator.
-    SinOsc sine = new SinOsc(sketchPApplet);
+    // Create Sine Oscillator.
+    private SinOsc sine = new SinOsc(sketchPApplet);
     
-    public float defaultVolume = 0.5;
-    
-    public float pan = 0.0;
+    // Default sound values
+    private float defaultVolume = 0.5;
+    private float pan = 0.0;
     
     // Which chord of the progression the instrument is currently on.
     private int patternIndex = 0;
@@ -24,6 +24,7 @@ public class Bass {
         // Extract roots from the progression.
         this.getNotes(progression);
         
+        // Set sound defaults
         this.sine.amp(this.defaultVolume);
         this.sine.pan(this.pan);
     }
@@ -45,13 +46,11 @@ public class Bass {
             // "Turn off" the instrument by setting volume to 0.
             this.sine.stop();
             
-            // Get frequency of the note and bring it into bass frequency.
-            // TODO: USE THAT FUNCTION TO BRING IT NEAR A CERTAIN NOTE.
+            // Get frequency of the note and lower it into bass frequency.
             float frequency = this.notes[this.patternIndex].frequency;
             float adjustedFrequency = frequency / (pow(2, 2));
             this.sine.freq(adjustedFrequency);
             
-            // "Play" the instrument by setting volume. Default 0.5.
             this.sine.play();
 
             // Return to beginning of chord progression if at end.
@@ -66,10 +65,13 @@ public class Bass {
         this.divisionCount++;
     }
     
+
+    // Functions for adjusting volume and pan
     public void changeVolume(float v) {
         this.sine.amp(v);
     }
     
+
     public void changePan(float v) {
         this.sine.pan(v);
     }

@@ -2,40 +2,20 @@
 // Selects and plays a drum beat from a pattern bank.
 
 public class Drums implements Instrument {
-    // TODO: Load patternBank from file.
 
     // The pattern that is chosen and used.
     private DrumPattern pattern; 
 
     private DrumPattern[] patternBank;
-    //    new DrumPattern(
-    //    new boolean[] {true, false, true, false, false, false, false, false, true, false, true, false, false, false, false, false}, 
-    //    new boolean[] {false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false}, 
-    //    new boolean[] {true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false}, 
-    //    new boolean[] {false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false}
-    //    ), 
-    //    new DrumPattern(
-    //    new boolean[] {true, false, false, true, false, false, true, false, false, false, true, false, false, false, false, false}, 
-    //    new boolean[] {false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false}, 
-    //    new boolean[] {true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false}, 
-    //    new boolean[] {false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false}
-    //    ), 
-    //    new DrumPattern(
-    //    new boolean[] {true, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false}, 
-    //    new boolean[] {false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false}, 
-    //    new boolean[] {true, false, true, false, true, false, true, false, true, false, false, false, true, false, true, false}, 
-    //    new boolean[] {false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false}
-    //    )
-    //};
 
     // Which division of the pattern the instrument is currently on.
     private int patternIndex = 0;
 
     // Load in soundFiles.
-    SoundFile kick = new SoundFile(sketchPApplet, "samples/drums/kick.wav");
-    SoundFile snare = new SoundFile(sketchPApplet, "samples/drums/snare.wav");
-    SoundFile hihat = new SoundFile(sketchPApplet, "samples/drums/hihat.wav");
-    SoundFile openhihat = new SoundFile(sketchPApplet, "samples/drums/openhihat.wav");
+    private SoundFile kick = new SoundFile(sketchPApplet, "samples/drums/kick.wav");
+    private SoundFile snare = new SoundFile(sketchPApplet, "samples/drums/snare.wav");
+    private SoundFile hihat = new SoundFile(sketchPApplet, "samples/drums/hihat.wav");
+    private SoundFile openhihat = new SoundFile(sketchPApplet, "samples/drums/openhihat.wav");
 
 
     public Drums() {
@@ -44,7 +24,7 @@ public class Drums implements Instrument {
     };
 
 
-    public void choosePattern() {
+    private void choosePattern() {
         this.pattern = this.patternBank[int(random(0, this.patternBank.length))];
     }
 
@@ -57,7 +37,6 @@ public class Drums implements Instrument {
 
         if (this.pattern.snare[patternIndex]) {
             playNote("snare");
-            //println(this.pattern.snare[patternIndex]);
         }
 
         if (this.pattern.hihat[patternIndex]) {
@@ -76,33 +55,32 @@ public class Drums implements Instrument {
     }
 
     // Play audio file
-    public void playNote(String n) {
+    private void playNote(String n) {
         switch(n) {
         case "kick":
             this.kick.stop();
             this.kick.play();
-            //print("playing kick");
             break;
         case "snare":
             this.snare.stop();
             this.snare.play();
-            //print("playing snare");
             break;
         case "hihat":
             this.hihat.stop();
             this.hihat.play();
-            //print("playing hat");
             break;
         case "openhihat":
             this.openhihat.stop();
             this.openhihat.play();
-            //print("playing openhat");
             break;
         }
     }
 
-    public void loadPatterns() {
+
+    // Load drum patterns from a text file
+    private void loadPatterns() {
         String[] lines = loadStrings("bank/drums.txt");
+        // Each new pattern is 5 lines long. Split up the file into 5 line sections.
         DrumPattern[] pb = new DrumPattern[lines.length / 5];
         for (int i = 0; i < lines.length/5; i++) {
             pb[i] = new DrumPattern(
@@ -112,11 +90,13 @@ public class Drums implements Instrument {
             convertStrToBool(split(lines[i * 5 + 3], " "))
             );
         }
-        printArray(pb[0].kick);
+
         this.patternBank = pb;
     }
     
-    public boolean[] convertStrToBool(String[] a) {
+
+    // Convert 1 or 0 into true or false
+    private boolean[] convertStrToBool(String[] a) {
         boolean[] r = new boolean[a.length];
         for (int u = 0; u < a.length; u++) {
             if (a[u].equals("1")) {
@@ -128,7 +108,7 @@ public class Drums implements Instrument {
         
         return r;
     }
-
+    
 
     // Change the volume of all drums. Volume must be
     // between 0.0 and 1.0
