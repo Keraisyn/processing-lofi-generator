@@ -75,14 +75,25 @@ public void master_volume_change(GKnob source, GEvent event) { //_CODE_:master_v
 
 public void new_progression_button_click(GButton source, GEvent event) { //_CODE_:new_progression_button:258491:
     println("button3 - GButton >> GEvent." + event + " @ " + millis());
+    // Wait for sounds from previous to stop
+    m.changeVolume(0);
+    r.changeVolume(0);
+    b.changeVolume(0);
+    d.changeVolume(0);
+    ra.changeVolume(0);
+    v.changeVolume(0);
+    player.initializePlayer();
+
+    delay(2000);
+    //globalSound.volume(master_volume.getValueF());
 } //_CODE_:new_progression_button:258491:
 
-public void tempo_change(GKnob source, GEvent event) { //_CODE_:tempo:606296:
+public void tempo_knob_change(GKnob source, GEvent event) { //_CODE_:tempo_knob:606296:
     println("tempo - GKnob >> GEvent." + event + " @ " + millis());
-    int fr = int(tempo.getValueF()/60*beatDivision);
+    int fr = int(tempo_knob.getValueF()/60*beatDivision);
     println(fr);
     frameRate(fr);
-} //_CODE_:tempo:606296:
+} //_CODE_:tempo_knob:606296:
 
 public void melody_mute_change(GCheckbox source, GEvent event) { //_CODE_:melody_mute:615215:
     println("checkbox1 - GCheckbox >> GEvent." + event + " @ " + millis());
@@ -244,19 +255,19 @@ public void createGUI() {
     new_progression_button.setText("New Progression");
     new_progression_button.setLocalColorScheme(GCScheme.PURPLE_SCHEME);
     new_progression_button.addEventHandler(this, "new_progression_button_click");
-    tempo = new GKnob(this, 20, 20, 60, 60, 0.8);
-    tempo.setTurnRange(110, 70);
-    tempo.setTurnMode(GKnob.CTRL_HORIZONTAL);
-    tempo.setSensitivity(1);
-    tempo.setShowArcOnly(false);
-    tempo.setOverArcOnly(false);
-    tempo.setIncludeOverBezel(false);
-    tempo.setShowTrack(true);
-    tempo.setLimits(80.0, 20.0, 160.0);
-    tempo.setShowTicks(true);
-    tempo.setLocalColorScheme(GCScheme.GOLD_SCHEME);
-    tempo.setOpaque(false);
-    tempo.addEventHandler(this, "tempo_change");
+    tempo_knob = new GKnob(this, 20, 20, 60, 60, 0.8);
+    tempo_knob.setTurnRange(110, 70);
+    tempo_knob.setTurnMode(GKnob.CTRL_HORIZONTAL);
+    tempo_knob.setSensitivity(1);
+    tempo_knob.setShowArcOnly(false);
+    tempo_knob.setOverArcOnly(false);
+    tempo_knob.setIncludeOverBezel(false);
+    tempo_knob.setShowTrack(true);
+    tempo_knob.setLimits(80.0, 20.0, 160.0);
+    tempo_knob.setShowTicks(true);
+    tempo_knob.setLocalColorScheme(GCScheme.GOLD_SCHEME);
+    tempo_knob.setOpaque(false);
+    tempo_knob.addEventHandler(this, "tempo_knob_change");
     melody_mute = new GCheckbox(this, 30, 210, 50, 20);
     melody_mute.setIconAlign(GAlign.LEFT, GAlign.MIDDLE);
     melody_mute.setText("Mute");
@@ -433,7 +444,7 @@ GButton start_button;
 GButton stop_button; 
 GKnob master_volume; 
 GButton new_progression_button; 
-GKnob tempo; 
+GKnob tempo_knob; 
 GCheckbox melody_mute; 
 GCheckbox rhodes_mute; 
 GKnob melody_pan; 
