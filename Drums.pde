@@ -7,26 +7,26 @@ public class Drums implements Instrument {
     // The pattern that is chosen and used.
     private DrumPattern pattern; 
 
-    private DrumPattern[] patternBank = {
-        new DrumPattern(
-        new boolean[] {true, false, true, false, false, false, false, false, true, false, true, false, false, false, false, false}, 
-        new boolean[] {false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false}, 
-        new boolean[] {true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false}, 
-        new boolean[] {false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false}
-        ), 
-        new DrumPattern(
-        new boolean[] {true, false, false, true, false, false, true, false, false, false, true, false, false, false, false, false}, 
-        new boolean[] {false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false}, 
-        new boolean[] {true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false}, 
-        new boolean[] {false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false}
-        ), 
-        new DrumPattern(
-        new boolean[] {true, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false}, 
-        new boolean[] {false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false}, 
-        new boolean[] {true, false, true, false, true, false, true, false, true, false, false, false, true, false, true, false}, 
-        new boolean[] {false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false}
-        )
-    };
+    private DrumPattern[] patternBank;
+    //    new DrumPattern(
+    //    new boolean[] {true, false, true, false, false, false, false, false, true, false, true, false, false, false, false, false}, 
+    //    new boolean[] {false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false}, 
+    //    new boolean[] {true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false}, 
+    //    new boolean[] {false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false}
+    //    ), 
+    //    new DrumPattern(
+    //    new boolean[] {true, false, false, true, false, false, true, false, false, false, true, false, false, false, false, false}, 
+    //    new boolean[] {false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false}, 
+    //    new boolean[] {true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false}, 
+    //    new boolean[] {false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false}
+    //    ), 
+    //    new DrumPattern(
+    //    new boolean[] {true, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false}, 
+    //    new boolean[] {false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false}, 
+    //    new boolean[] {true, false, true, false, true, false, true, false, true, false, false, false, true, false, true, false}, 
+    //    new boolean[] {false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false}
+    //    )
+    //};
 
     // Which division of the pattern the instrument is currently on.
     private int patternIndex = 0;
@@ -39,6 +39,7 @@ public class Drums implements Instrument {
 
 
     public Drums() {
+        this.loadPatterns();
         this.choosePattern();
     };
 
@@ -98,6 +99,34 @@ public class Drums implements Instrument {
             //print("playing openhat");
             break;
         }
+    }
+
+    public void loadPatterns() {
+        String[] lines = loadStrings("bank/drums.txt");
+        DrumPattern[] pb = new DrumPattern[lines.length / 5];
+        for (int i = 0; i < lines.length/5; i++) {
+            pb[i] = new DrumPattern(
+            convertStrToBool(split(lines[i * 5], " ")),
+            convertStrToBool(split(lines[i * 5 + 1], " ")),
+            convertStrToBool(split(lines[i * 5 + 2], " ")),
+            convertStrToBool(split(lines[i * 5 + 3], " "))
+            );
+        }
+        printArray(pb[0].kick);
+        this.patternBank = pb;
+    }
+    
+    public boolean[] convertStrToBool(String[] a) {
+        boolean[] r = new boolean[a.length];
+        for (int u = 0; u < a.length; u++) {
+            if (a[u].equals("1")) {
+                r[u] = true;
+            } else {
+                r[u] = false;
+            }
+        }
+        
+        return r;
     }
 
 

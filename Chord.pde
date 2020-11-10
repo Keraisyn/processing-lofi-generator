@@ -63,47 +63,47 @@ public class Chord {
         switch (type) {
         case "m":
             // Minor triad
-            notes = new int[] {r, r + 3, r + 7};
+            notes = new int[] { r + 3, r + 7};
             scaleCodes = new int[] {0, r, r+2, r+3, r+5, r+7, r+9, r+10};
             break;
         case "M":
             // Major triad
-            notes = new int[] {r, r + 4, r + 7};
+            notes = new int[] { r + 4, r + 7};
             scaleCodes = new int[] {0, r, r+2, r+4, r+5, r+7, r+9, r+11};
             break;
         case "d7":
             // Diminished 7th
-            notes = new int[] {r, r + 3, r + 6, r + 9};
+            notes = new int[] { r + 3, r + 6, r + 9};
             scaleCodes = new int[] {0, r, r+2, r+3, r+5, r+6, r+8, r+9};
             break;
         case "m7":
             // Minor 7th
-            notes = new int[] {r, r + 3, r + 7, r + 10};
+            notes = new int[] { r + 3, r + 7, r + 10};
             scaleCodes = new int[] {0, r, r+2, r+3, r+5, r+7, r+9, r+10};
             break;
         case "M7":
             // Major 7th
-            notes = new int[] {r, r + 4, r + 7, r + 11};
+            notes = new int[] { r + 4, r + 7, r + 11};
             scaleCodes = new int[] {0, r, r+2, r+4, r+5, r+7, r+9, r+11};
             break;
         case "7":
             // (Dominant) 7th
-            notes = new int[] {r, r + 4, r + 7, r + 10};
+            notes = new int[] { r + 4, r + 7, r + 10};
             scaleCodes = new int[] {0, r, r+2, r+4, r+5, r+7, r+9, r+10};
             break;
         case "m9":
             // Minor 9th
-            notes = new int[] {r, r + 3, r + 7, r + 10, r + 13};
+            notes = new int[] { r + 3, r + 7, r + 10, r + 13};
             scaleCodes = new int[] {0, r, r+2, r+3, r+5, r+7, r+9, r+10};
             break;
         case "sus2":
             // Minor 9th
-            notes = new int[] {r, r + 2, r + 7, r + 10};
+            notes = new int[] { r + 2, r + 7, r + 10};
             scaleCodes = new int[] {0, r, r+2, r+3, r+5, r+7, r+9, r+10};
             break;
         case "9sus4":
             // Minor 9th
-            notes = new int[] {r, r + 5, r + 7, r + 10, r + 13};
+            notes = new int[] { r + 5, r + 7, r + 10, r + 13};
             scaleCodes = new int[] {0, r, r+2, r+3, r+5, r+7, r+9, r+10};
             break;
         default:

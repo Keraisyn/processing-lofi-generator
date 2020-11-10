@@ -164,9 +164,9 @@ public void drums_mute_change(GCheckbox source, GEvent event) { //_CODE_:drums_m
 public void rain_mute_change(GCheckbox source, GEvent event) { //_CODE_:rain_mute:769988:
     println("rain_mute - GCheckbox >> GEvent." + event + " @ " + millis());
     if (rain_mute.isSelected()) {
-        r.changeVolume(0);
+        ra.changeVolume(0);
     } else {
-        r.changeVolume(1.0-rain_volume.getValueF());
+        ra.changeVolume(1.0-rain_volume.getValueF());
     }
 } //_CODE_:rain_mute:769988:
 

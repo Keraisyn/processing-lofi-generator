@@ -14,6 +14,8 @@ import processing.sound.*;
 
 import g4p_controls.*;
 
+import java.util.Map;
+
 // Intiate PApplet
 PApplet sketchPApplet;
 

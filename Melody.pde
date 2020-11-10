@@ -21,17 +21,17 @@ public class Melody {
     // Rhythm bank. The length is not limited to 4, although the rhythms work 
     // best in 4/4 time.
     // Structure 
-    private boolean[][] rhythmBank = {
-        {true, false, false, false, false, false, false, false}, // Single half
-        {false, false, false, false, true, false, false, false}, // Quarter rest then quarter
-        {true, false, true, false, false, false, true, false},   // Eighth, quarter, eighth
-        {true, false, false, false, true, false, true, false}, 
-        {true, false, false, false}, // Single quarter
-        {true, false, true, false}, // Two eighths
-        {true, false, false, true}, // Dotted eighth
-        {true, false, true, true}, // Eighth and 2 sixteenths
-        {true, true, true, true}, // Four sixteenths
-    };
+    private boolean[][] rhythmBank;
+    //    {true, false, false, false, false, false, false, false}, // Single half
+    //    {false, false, false, false, true, false, false, false}, // Quarter rest then quarter
+    //    {true, false, true, false, false, false, true, false}, // Eighth, quarter, eighth
+    //    {true, false, false, false, true, false, true, false}, 
+    //    {true, false, false, false}, // Single quarter
+    //    {true, false, true, false}, // Two eighths
+    //    {true, false, false, true}, // Dotted eighth
+    //    {true, false, true, true}, // Eighth and 2 sixteenths
+    //    {true, true, true, true}, // Four sixteenths
+    //};
 
 
     private Chord[] progression;
@@ -45,6 +45,7 @@ public class Melody {
     private int barSteps;
 
     public Melody(Chord[] progression) {
+        this.loadRhythms();
         this.barSteps = beatDivision * barLength;
         this.bar = new boolean[this.barSteps];
         this.progression = progression;
@@ -188,11 +189,33 @@ public class Melody {
         // Keep a running tally of divisions.
         this.divisionCount++;
     }
-    
+
+    public void loadRhythms() {
+        String[] lines = loadStrings("bank/rhythms.txt");
+        boolean[][] rb = new boolean[lines.length][];
+        for (int i = 0; i < lines.length; i++) {
+            rb[i] = this.convertStrToBool(split(lines[i], " "));
+        }
+        this.rhythmBank = rb;
+    }
+
+    public boolean[] convertStrToBool(String[] a) {
+        boolean[] r = new boolean[a.length];
+        for (int u = 0; u < a.length; u++) {
+            if (a[u].equals("1")) {
+                r[u] = true;
+            } else {
+                r[u] = false;
+            }
+        }
+
+        return r;
+    }
+
     public void changeVolume(float v) {
         this.volume = v;
     }
-    
+
     public void changePan(float v) {
         this.pan = pan;
     }
