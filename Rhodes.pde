@@ -1,7 +1,7 @@
 // Rhodes instrument
 // Plays a chord progression.
 
-public class Rhodes {
+public class Rhodes implements Instrument{
     // Target pitch for voicing chords
     private int voiceTarget = 58;
 

@@ -1,7 +1,7 @@
 // Sub bass instrument
 // Sine wave playing the root note of chords at very low frequencies.
 
-public class Bass {
+public class Bass implements Instrument {
     // Notes that are played through the pattern.
     private Note[] notes;
     
@@ -9,8 +9,8 @@ public class Bass {
     private SinOsc sine = new SinOsc(sketchPApplet);
     
     // Default sound values
-    private float defaultVolume = 0.5;
-    private float pan = 0.0;
+    public float volume = 0.5;
+    public float pan = 0.0;
     
     // Which chord of the progression the instrument is currently on.
     private int patternIndex = 0;
@@ -25,7 +25,7 @@ public class Bass {
         this.getNotes(progression);
         
         // Set sound defaults
-        this.sine.amp(this.defaultVolume);
+        this.sine.amp(this.volume);
         this.sine.pan(this.pan);
     }
 

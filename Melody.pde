@@ -1,7 +1,7 @@
 // Melody instrument.
 // Continously generates a melody with the chord progression.
 
-public class Melody {
+public class Melody implements Instrument {
 
     // Default values
     private int voiceTarget = 55;

@@ -8,6 +8,9 @@ public class Drums implements Instrument {
 
     private DrumPattern[] patternBank;
 
+    public float volume = 1.0;
+    public float pan = 0.0;
+
     // Which division of the pattern the instrument is currently on.
     private int patternIndex = 0;
 
@@ -117,6 +120,7 @@ public class Drums implements Instrument {
         this.snare.amp(v);
         this.hihat.amp(v);
         this.openhihat.amp(v);
+        this.volume = v;
     }
 
     public void changePan(float v) {
@@ -124,5 +128,6 @@ public class Drums implements Instrument {
         this.snare.pan(v);
         this.hihat.pan(v);
         this.openhihat.pan(v);
+        this.pan = v;
     }
 }

@@ -77,13 +77,46 @@ public void master_volume_change(GKnob source, GEvent event) { //_CODE_:master_v
 public void new_progression_button_click(GButton source, GEvent event) { //_CODE_:new_progression_button:258491:
     println("button3 - GButton >> GEvent." + event + " @ " + millis());
     // Wait for sounds from previous to stop
+    // Store volumes and pans to keep the same properties
+    float mVol = m.volume;
+    float rVol = r.volume;
+    float bVol = b.volume;
+    float dVol = d.volume;
+    float raVol = ra.volume;
+    float vVol = v.volume;
+
+    float mPan = m.pan;
+    float rPan = r.pan;
+    float bPan = b.pan;
+    float dPan = d.pan;
+    float raPan = ra.pan;
+    float vPan = v.pan;
+
+    // Wait for sounds from previous to stop
     m.changeVolume(0);
     r.changeVolume(0);
     b.changeVolume(0);
     d.changeVolume(0);
     ra.changeVolume(0);
     v.changeVolume(0);
+
     player.initializePlayer();
+
+    // Put properties back
+    println(dVol);
+    m.changeVolume(mVol);
+    r.changeVolume(rVol);
+    b.changeVolume(bVol);
+    d.changeVolume(dVol);
+    ra.changeVolume(raVol);
+    v.changeVolume(vVol);
+
+    m.changePan(mPan);
+    r.changePan(rPan);
+    b.changePan(bPan);
+    d.changePan(dPan);
+    ra.changePan(raPan);
+    v.changePan(vPan);
 
     delay(2000);
     //globalSound.volume(master_volume.getValueF());
