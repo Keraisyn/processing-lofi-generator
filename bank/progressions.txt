@@ -1,3 +1,8 @@
 A# 7 C m7 D m7 D m7
 D m9 G 9sus4 A 9sus4 C# d7
-D# M7 F sus2 G# M7 G# M7 D# M7 F sus2 C sus2 C sus 2
+D# M7 F sus2 G# M7 G# M7 D# M7 F sus2 C sus2 C sus2
+C# m7 C# m7 G# m7 F# m7
+D# m7 D# m7 C# m7 C# m7
+A# M C m D# m D# m
+C M7 A m7 D m7 G 7 E m7 A 7 D m7 G 7
+C M7 C M7 D 7 D 7 D m9 G M C M7 C M

@@ -90,7 +90,7 @@ public class Melody {
         int sum = Utility.sumArray(finalScores);
         int t = (int) random(1, sum);
         int cumulativeProb = 0;
-        int targetDegree = 0;
+        int targetDegree = 1;
 
         for (int i = 1; i < finalScores.length; i++) {
             cumulativeProb += finalScores[i];
@@ -208,6 +208,6 @@ public class Melody {
 
 
     public void changePan(float v) {
-        this.pan = pan;
+        this.pan = v;
     }
 }
