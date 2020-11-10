@@ -6,7 +6,7 @@ public class Drums implements Instrument {
 
     // The pattern that is chosen and used.
     private DrumPattern pattern; 
-    
+
     private DrumPattern[] patternBank = {
         new DrumPattern(
         new boolean[] {true, false, true, false, false, false, false, false, true, false, true, false, false, false, false, false}, 
@@ -27,7 +27,7 @@ public class Drums implements Instrument {
         new boolean[] {false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false}
         )
     };
-    
+
     // Which division of the pattern the instrument is currently on.
     private int patternIndex = 0;
 
@@ -99,8 +99,8 @@ public class Drums implements Instrument {
             break;
         }
     }
-    
-    
+
+
     // Change the volume of all drums. Volume must be
     // between 0.0 and 1.0
     public void changeVolume(float v) {
@@ -108,5 +108,12 @@ public class Drums implements Instrument {
         this.snare.amp(v);
         this.hihat.amp(v);
         this.openhihat.amp(v);
+    }
+
+    public void changePan(float v) {
+        this.kick.pan(v);
+        this.snare.pan(v);
+        this.hihat.pan(v);
+        this.openhihat.pan(v);
     }
 }

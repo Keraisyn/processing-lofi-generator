@@ -1,3 +1,13 @@
+// ****************************************************
+// TITLE: PROCESSING LOFI GENERATOR AND MIXER
+// PURPOSE: FINAL CODING PROJECT
+// LAST EDITED: 11/09/2020
+// AUTHOR: MATTHEWS MA
+// COURSE: ICS 4UI
+// TEACHER: MR. SCHATTMAN
+// ****************************************************
+
+
 // Library imports
 // Official Processing Sound library. Used for all sound features.
 import processing.sound.*;
@@ -49,7 +59,7 @@ public void transpose(Chord[] prog) {
 
 void setup() {
     createGUI();
-    size(1000, 800);
+    size(500,500);
 
     // Create a reference to the Processing applet. This is required for
     // the processing.Sound library.

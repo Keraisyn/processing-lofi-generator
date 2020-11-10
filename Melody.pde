@@ -7,6 +7,8 @@ public class Melody {
     private Note lastNote = new Note(60);
     private float volume = 0.5;
 
+    public float pan = 0.0;
+
     // Load individual samples from C3 - B3 (48 - 59)
     private SoundFile[] scale = {
         new SoundFile(sketchPApplet, "samples/rhodes/c3.aiff"), new SoundFile(sketchPApplet, "samples/rhodes/c#3.aiff"), new SoundFile(sketchPApplet, "samples/rhodes/d3.aiff"), 
@@ -176,6 +178,7 @@ public class Melody {
             // Play note 
             this.scale[scaleIndex].rate(rateDiff);
             this.scale[scaleIndex].amp(this.volume);
+            this.scale[scaleIndex].pan(this.pan);
             this.scale[scaleIndex].stop();
             this.scale[scaleIndex].play();
         }
@@ -188,5 +191,9 @@ public class Melody {
     
     public void changeVolume(float v) {
         this.volume = v;
+    }
+    
+    public void changePan(float v) {
+        this.pan = pan;
     }
 }

@@ -10,6 +10,8 @@ public class Bass {
     
     public float defaultVolume = 0.5;
     
+    public float pan = 0.0;
+    
     // Which chord of the progression the instrument is currently on.
     private int patternIndex = 0;
     
@@ -23,6 +25,7 @@ public class Bass {
         this.getNotes(progression);
         
         this.sine.amp(this.defaultVolume);
+        this.sine.pan(this.pan);
     }
 
 
@@ -65,5 +68,9 @@ public class Bass {
     
     public void changeVolume(float v) {
         this.sine.amp(v);
+    }
+    
+    public void changePan(float v) {
+        this.sine.pan(v);
     }
 }

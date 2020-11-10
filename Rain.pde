@@ -7,10 +7,11 @@ public class Rain implements Instrument {
     // Main volume
     public float volume = 0.7;
 
+    public float pan = 0.0;
 
     public Rain() {
         this.rainSample.amp(this.volume);
-        
+
         // Play on instantiation and continue looping
         this.rainSample.loop();
     }
@@ -19,6 +20,11 @@ public class Rain implements Instrument {
     public void changeVolume(float v) {
         this.volume = v;
         this.rainSample.amp(this.volume);
+    }
+
+    public void changePan(float v) {
+        this.pan = v;
+        this.rainSample.pan(this.pan);
     }
 
 

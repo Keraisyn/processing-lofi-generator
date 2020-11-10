@@ -7,6 +7,8 @@ public class Rhodes {
 
     public float volume = 0.5;
 
+    public float pan = 0.0;
+
     // Load individual samples from C3 - B3 (48 - 59)
     private SoundFile[] scale = {
         new SoundFile(sketchPApplet, "samples/rhodes/c3.aiff"), new SoundFile(sketchPApplet, "samples/rhodes/c#3.aiff"), new SoundFile(sketchPApplet, "samples/rhodes/d3.aiff"), 
@@ -14,13 +16,13 @@ public class Rhodes {
         new SoundFile(sketchPApplet, "samples/rhodes/f#3.aiff"), new SoundFile(sketchPApplet, "samples/rhodes/g3.aiff"), new SoundFile(sketchPApplet, "samples/rhodes/g#3.aiff"), 
         new SoundFile(sketchPApplet, "samples/rhodes/a3.aiff"), new SoundFile(sketchPApplet, "samples/rhodes/a#3.aiff"), new SoundFile(sketchPApplet, "samples/rhodes/b3.aiff")
     };
-    
+
     // How many steps have passed
     private int divisionCount = 0;
-    
+
     // Which chord of the progression the instrument is on
     private int patternIndex = 0;
-    
+
     // EQ filters
     private ArrayList<LowPass> lpFilters = new ArrayList<LowPass>();
     private ArrayList<HighPass> hpFilters = new ArrayList<HighPass>();
@@ -32,7 +34,7 @@ public class Rhodes {
     public Rhodes(Chord[] progression) {
         this.progression = progression;
         this.applyEffects();
-        
+
         // Voice chord as soon as it comes in
         this.applyVoicing();
     }
@@ -86,6 +88,7 @@ public class Rhodes {
                 // Play note 
                 this.scale[scaleIndex].rate(rateDiff);
                 this.scale[scaleIndex].amp(this.volume);
+                this.scale[scaleIndex].pan(this.pan);
                 this.scale[scaleIndex].stop();
                 this.scale[scaleIndex].play();
             }
@@ -101,9 +104,13 @@ public class Rhodes {
         // Incremement the step count
         this.divisionCount++;
     }
-    
-    
+
+
     public void changeVolume(float v) {
         this.volume = v;
+    }
+
+    public void changePan(float v) {
+        this.pan = v;
     }
 }
